@@ -1,0 +1,37 @@
+---
+name: rules-pact
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test_job:
+    runs-on: ubuntu-20.04
+    container:
+      image: gcr.io/bazel-public/bazel:6.3.2
+      volumes:
+        - /usr/bin/docker:/usr/bin/docker
+        - /var/run/docker.sock:/var/run/docker.sock
+      options: -e USER="root" -u="root"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Fetch bazel cache
+        uses: actions/cache@v3
+        with:
+          path: /tmp/cache
+          key: bazel-cache
+          restore-keys: |
+            bazel-cache
+      - name: Bazel test
+        run: bazel --output_user_root=/tmp/cache test --test_output=errors //...
+  release_job:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
