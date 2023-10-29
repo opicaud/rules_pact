@@ -51,6 +51,7 @@ bzl_library(
         "@rules_pact//private:toolchains.bzl",
         "@rules_pact//private:consumer.bzl",
         "@rules_pact//private:provider.bzl",
+        "@rules_pact//private/pact:pact_test.bzl",
     ],
     visibility = ["//visibility:public"],
 )
