@@ -1,4 +1,4 @@
 exports_files(
-    glob(["toolchains.bzl", "consumer.bzl", "provider.bzl"]),
+    glob(["toolchains.bzl", "provider.bzl"]),
     visibility = ["//visibility:public"],
 )

@@ -49,10 +49,12 @@ bzl_library(
     name = "bzl_lib",
     srcs = [
         "@rules_pact//private:toolchains.bzl",
-        "@rules_pact//private:consumer.bzl",
         "@rules_pact//private:provider.bzl",
         "@rules_pact//private/pact:pact_test.bzl",
         "@rules_pact//private/pact:side_car.bzl",
+        "@rules_pact//private/pact:consumer.bzl",
+        "@rules_pact//private/pact:provider.bzl",
+
     ],
     visibility = ["//visibility:public"],
 )
