@@ -1,4 +1,4 @@
 exports_files(
-    glob(["pact_test.bzl"]),
+    glob(["pact_test.bzl", "side_car.bzl"]),
     visibility = ["//visibility:public"],
 )
