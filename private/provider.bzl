@@ -1,2 +1,2 @@
-ExampleInfo = provider("file")
+SideCarInfo = provider("file")
 ContractInfo = provider("name")

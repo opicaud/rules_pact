@@ -1,4 +1,4 @@
-load("//private:provider.bzl", "ExampleInfo")
+load("//private:provider.bzl", "SideCarInfo")
 
 def _side_car_impl(ctx):
     args = ctx.actions.args()
@@ -21,7 +21,7 @@ def _side_car_impl(ctx):
 
     runfiles = ctx.runfiles(files = [bin, cli_args, env_args_file, health_check_file] + ctx.files.data)
     return [DefaultInfo(runfiles = runfiles),
-            ExampleInfo(file = bin.basename)
+            SideCarInfo(file = bin.basename)
 ]
 
 side_car = rule(

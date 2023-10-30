@@ -1,4 +1,4 @@
-load("//private:provider.bzl", "ExampleInfo", "ContractInfo")
+load("//private:provider.bzl", "SideCarInfo", "ContractInfo")
 
 
 script_template="""\
@@ -64,8 +64,8 @@ def _impl(ctx):
     dict = {}
     for p in provider:
         dict.update({p.basename: p.short_path})
-        if ctx.attr.provider[ExampleInfo].file == p.basename:
-            dict.update({ctx.attr.provider[ExampleInfo].file: p.short_path})
+        if ctx.attr.provider[SideCarInfo].file == p.basename:
+            dict.update({ctx.attr.provider[SideCarInfo].file: p.short_path})
         dict.update({"contract": ctx.attr.consumer[ContractInfo].name + "-" + ctx.attr.provider[ContractInfo].name})
     script_content = script_template.format(
         manifest = pact_plugins.manifest.short_path,
@@ -76,7 +76,7 @@ def _impl(ctx):
         pact_verifier_cli_opts = dict.setdefault("cli_args", "nop"),
         side_car_opts = dict.setdefault("side_car_cli_args", "nop"),
         provider_bin = dict.setdefault("cmd", "nop"),
-        side_car_bin = dict.setdefault(ctx.attr.provider[ExampleInfo].file, "nop"),
+        side_car_bin = dict.setdefault(ctx.attr.provider[SideCarInfo].file, "nop"),
         env_side_car = dict.setdefault("env_side_car","nop"),
         health_check_side_car = dict.setdefault("health_check_side_car", "nop"),
         contract = dict.setdefault("contract", "nop")

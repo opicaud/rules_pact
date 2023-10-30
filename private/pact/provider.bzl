@@ -1,4 +1,4 @@
-load("//private:provider.bzl", "ExampleInfo", "ContractInfo")
+load("//private:provider.bzl", "SideCarInfo", "ContractInfo")
 
 def _provider_impl(ctx):
 
@@ -16,7 +16,7 @@ def _provider_impl(ctx):
         runfiles = runfiles.merge(dep[DefaultInfo].default_runfiles)
 
     return [DefaultInfo(runfiles = runfiles),
-            ExampleInfo(file = dep[ExampleInfo].file),
+            SideCarInfo(file = dep[SideCarInfo].file),
             ContractInfo(name = ctx.attr.name)]
 provider = rule(
     implementation = _provider_impl,
@@ -31,7 +31,7 @@ provider = rule(
         ),
         "deps": attr.label_list(
             allow_files = True,
-            providers = [ExampleInfo],
+            providers = [SideCarInfo],
             doc="any useful dep to run with the provider like a state-manager, a proxy or a side-car"
         ),
     },
