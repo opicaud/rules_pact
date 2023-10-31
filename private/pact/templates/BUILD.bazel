@@ -1,0 +1,1 @@
+exports_files(["pact_test.template.sh"])
