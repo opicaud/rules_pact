@@ -28,6 +28,7 @@ jobs:
         run: bazel --output_user_root=/tmp/cache test --test_output=errors //...
   release_job:
     runs-on: ubuntu-20.04
+    needs: test_job
     steps:
       - name: Checkout
         uses: actions/checkout@v3
