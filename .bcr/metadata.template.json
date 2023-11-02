@@ -8,7 +8,7 @@
     }
   ],
   "repository": [
-    "github:opicaud/rules_pact"  // <-- Replace OWNER and REPO with the correct values
+    "github:opicaud/rules_pact"
   ],
   "versions": [],
   "yanked_versions": {}
