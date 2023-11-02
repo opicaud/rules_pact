@@ -165,26 +165,6 @@ A pact reference toolchain
 | <a id="pact_reference_toolchain-pact_verifier_cli"></a>pact_verifier_cli |  A pact reference binary   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
 
 
-<a id="pact_test"></a>
-
-## pact_test
-
-<pre>
-pact_test(<a href="#pact_test-name">name</a>, <a href="#pact_test-consumer">consumer</a>, <a href="#pact_test-provider">provider</a>)
-</pre>
-
-
-
-**ATTRIBUTES**
-
-
-| Name  | Description | Type | Mandatory | Default |
-| :------------- | :------------- | :------------- | :------------- | :------------- |
-| <a id="pact_test-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
-| <a id="pact_test-consumer"></a>consumer |  -   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
-| <a id="pact_test-provider"></a>provider |  -   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
-
-
 <a id="provider"></a>
 
 ## provider
@@ -227,5 +207,23 @@ side_car(<a href="#side_car-name">name</a>, <a href="#side_car-srcs">srcs</a>, <
 | <a id="side_car-env"></a>env |  any environment variable to provide with the side_car   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | optional |  `{}`  |
 | <a id="side_car-health_check"></a>health_check |  uri to curl before launching provider test   | String | optional |  `"nop"`  |
 | <a id="side_car-opts"></a>opts |  the option specific to the side-car   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | optional |  `{}`  |
+
+
+<a id="pact_test"></a>
+
+## pact_test
+
+<pre>
+pact_test(<a href="#pact_test-kwargs">kwargs</a>)
+</pre>
+
+
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="pact_test-kwargs"></a>kwargs |  <p align="center"> - </p>   |  none |
 
 
