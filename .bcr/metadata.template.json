@@ -1,0 +1,15 @@
+{
+  "homepage": "https://github.com/opicaud/rules_pact",
+  "maintainers": [
+    {
+      "email": "olivier.picaud@trackclear.be",
+      "github": "opicaud",
+      "name": "Olivier Picaud"
+    }
+  ],
+  "repository": [
+    "github:opicaud/rules_pact"  // <-- Replace OWNER and REPO with the correct values
+  ],
+  "versions": [],
+  "yanked_versions": {}
+}
