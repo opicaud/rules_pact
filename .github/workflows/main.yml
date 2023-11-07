@@ -43,18 +43,18 @@ jobs:
         run: |
           curl \
             -L \
-            -o rules_pact-v1.1.6.tar.gz \
-            https://github.com/opicaud/rules_pact/archive/refs/tags/v1.1.6.tar.gz
+            -o rules_pact-v1.1.7.tar.gz \
+            https://github.com/opicaud/rules_pact/archive/refs/tags/v1.1.7.tar.gz
       - name: CREATE RELEASE
         id: create-release
         uses: ncipollo/release-action@v1.13.0
         with:
-          name: rules_pact v1.1.6
-          tag: v1.1.6
+          name: rules_pact v1.1.7
+          tag: v1.1.7
           allowUpdates: true
           draft: true
           artifactErrorsFailBuild: true
           updateOnlyUnreleased: true
           generateReleaseNotes: false
           artifacts: >-
-            rules_pact-v1.1.6.tar.gz
+            rules_pact-v1.1.7.tar.gz
