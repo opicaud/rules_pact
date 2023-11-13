@@ -6,10 +6,6 @@
     "@semantic-release/git",
     ["@semantic-release/github", {
         "draftRelease": true
-    }],
-    ["@semantic-release/exec", {
-       "analyzeCommitsCmd": "echo ${lastRelease.version} > current_release_version",
-       "verifyReleaseCmd": "echo ${nextRelease.version} > next_release_version",
     }]
   ]
 }

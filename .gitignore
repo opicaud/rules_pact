@@ -4,5 +4,3 @@ bazel-bin
 bazel-out
 bazel-rules_pact
 bazel-testlogs
-current_release_version
-next_release_version
