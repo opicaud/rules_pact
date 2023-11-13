@@ -39,13 +39,20 @@ jobs:
             @semantic-release/exec@6.0.3
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Do something when a new release published
+        env:
+          NEXT_RELEASE_VERSION: v${{ steps.semantic.outputs.new_release_version }}
+        run: |
+            echo $NEXT_RELEASE_VERSION
       - name: FETCH THE SOURCE ARCHIVE
+        if: steps.semantic.outputs.new_release_published == 'true'
         run: |
           curl \
             -L \
             -o rules_pact-v1.1.9.tar.gz \
             https://github.com/opicaud/rules_pact/archive/refs/tags/v1.1.9.tar.gz
       - name: CREATE RELEASE
+        if: steps.semantic.outputs.new_release_published == 'true'
         id: create-release
         uses: ncipollo/release-action@v1.13.0
         with:
