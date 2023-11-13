@@ -1,5 +1,5 @@
 ---
-name: rules-pact
+name: rules_pact
 on:
   push:
     branches:
@@ -50,14 +50,14 @@ jobs:
         run: |
           curl \
             -L \
-            -o rules_pact-v$NEXT_RELEASE_VERSION.tar.gz \
-            https://github.com/opicaud/rules_pact/archive/refs/tags/v$NEXT_RELEASE_VERSION.tar.gz
+            -o $env:GITHUB_WORKFLOW-v$NEXT_RELEASE_VERSION.tar.gz \
+            https://github.com/opicaud/$env:GITHUB_WORKFLOW/archive/refs/tags/v$NEXT_RELEASE_VERSION.tar.gz
       - name: CREATE RELEASE
         if: steps.semantic.outputs.new_release_published == 'true'
         id: create-release
         uses: ncipollo/release-action@v1.13.0
         with:
-          name: rules_pact v$NEXT_RELEASE_VERSION
+          name: $env:GITHUB_WORKFLOW v$NEXT_RELEASE_VERSION
           tag: v$NEXT_RELEASE_VERSION
           allowUpdates: true
           draft: true
@@ -65,4 +65,4 @@ jobs:
           updateOnlyUnreleased: true
           generateReleaseNotes: false
           artifacts: >-
-            rules_pact-v$NEXT_RELEASE_VERSION.tar.gz
+            $env:GITHUB_WORKFLOW-v$NEXT_RELEASE_VERSION.tar.gz
