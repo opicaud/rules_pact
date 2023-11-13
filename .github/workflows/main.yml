@@ -29,11 +29,14 @@ jobs:
   release_job:
     runs-on: ubuntu-20.04
     needs: test_job
+    env:
+      RELEASE_NAME: rules_pact
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
+        id: semantic
         with:
           extra_plugins: |
             @semantic-release/exec@6.0.3
@@ -44,25 +47,31 @@ jobs:
         env:
           NEXT_RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
         run: |
-            echo $NEXT_RELEASE_VERSION
-      - name: FETCH THE SOURCE ARCHIVE
+          echo $GITHUB_WORKFLOW $NEXT_RELEASE_VERSION
+      - name: Fetch source of archive
         if: steps.semantic.outputs.new_release_published == 'true'
+        env:
+          NEXT_RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
         run: |
+          echo $RELEASE_NAME $NEXT_RELEASE_VERSION
           curl \
             -L \
-            -o $env:GITHUB_WORKFLOW-v$NEXT_RELEASE_VERSION.tar.gz \
-            https://github.com/opicaud/$env:GITHUB_WORKFLOW/archive/refs/tags/v$NEXT_RELEASE_VERSION.tar.gz
-      - name: CREATE RELEASE
+            -o $RELEASE_NAME-v$NEXT_RELEASE_VERSION.tar.gz \
+            https://github.com/opicaud/$RELEASE_NAME/archive/refs/tags/v$NEXT_RELEASE_VERSION.tar.gz
+          ls
+      - name: Create release
         if: steps.semantic.outputs.new_release_published == 'true'
-        id: create-release
+        env:
+          NEXT_RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
         uses: ncipollo/release-action@v1.13.0
         with:
-          name: $env:GITHUB_WORKFLOW v$NEXT_RELEASE_VERSION
-          tag: v$NEXT_RELEASE_VERSION
+          prerelease: true
+          name: ${{ env.RELEASE_NAME }}-v${{ env.NEXT_RELEASE_VERSION }}
+          tag: v${{ env.NEXT_RELEASE_VERSION }}
           allowUpdates: true
           draft: true
           artifactErrorsFailBuild: true
           updateOnlyUnreleased: true
           generateReleaseNotes: false
           artifacts: >-
-            $env:GITHUB_WORKFLOW-v$NEXT_RELEASE_VERSION.tar.gz
+            ${{ env.RELEASE_NAME }}-v${{ env.NEXT_RELEASE_VERSION }}.tar.gz
