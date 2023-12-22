@@ -6,7 +6,7 @@ module(
 
 bazel_dep(name = "platforms", version = "0.0.8")
 bazel_dep(name = "stardoc", version = "0.6.2")
-bazel_dep(name = "bazel_skylib", version = "1.4.2")
+bazel_dep(name = "bazel_skylib", version = "1.5.0")
 
 rules_pact = use_extension("@rules_pact//:extensions.bzl", "rules_pact")
 rules_pact.options()
