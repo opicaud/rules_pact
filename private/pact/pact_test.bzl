@@ -15,6 +15,9 @@ def _impl(ctx):
     pact_reference = ctx.toolchains["@rules_pact//:pact_reference_toolchain_type"]
     consumer = ctx.attr.consumer[DefaultInfo].default_runfiles.files.to_list()
     provider = ctx.attr.provider[DefaultInfo].default_runfiles.files.to_list()
+    debug = "op"
+    if ctx.attr.debug == False:
+        debug = "nop"
     dict = {}
     script = ctx.actions.declare_file(ctx.label.name + ".sh")
     for p in provider:
@@ -26,6 +29,7 @@ def _impl(ctx):
             template = ctx.file._script,
             output = script,
             substitutions = {
+                "{debug}": debug,
                 "{manifest}": pact_plugins.manifest.short_path,
                 "{plugin}": pact_plugins.protobuf_plugin.short_path,
                 "{run_consumer_test}": consumer[0].short_path,
@@ -52,6 +56,7 @@ _pact_test = rule(
     attrs = {
         "consumer": attr.label(),
         "provider": attr.label(),
+        "debug": attr.bool(default = True),
         "_script" : attr.label(default = Label("//private/pact/templates:pact_test.template.sh"),  allow_single_file = True,)
     },
     toolchains = ["@rules_pact//:pact_reference_toolchain_type", "@rules_pact//:pact_protobuf_plugin_toolchain_type"],

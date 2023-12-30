@@ -20,11 +20,15 @@ cp {plugin} pact-protobuf-plugin
 mv pact-protobuf-plugin protobuf-0.3.5
 export PACT_PLUGIN_DIR=$(pwd)
 ./{run_consumer_test}
-echo "### Running Providers Tests ###"
-contract=$(dirname $(dirname {run_consumer_test}))/pacts/{contract}.json
+echo "### Running Providers Tests On Contracts ###"
+contract_path=$(dirname $(dirname {run_consumer_test}))/pacts/{contract}.json
+if [ "{debug}" == "op" ]
+then
+  cat "${contract_path}"
+fi
 pact_verifier_cli_args=$(cat {pact_verifier_cli_opts} || echo "--help")
 side_car_cli_args=$(cat {side_car_opts} || echo "")
-cli_args="$side_car_cli_args -f $contract $pact_verifier_cli_args"
+cli_args="$side_car_cli_args -f $contract_path $pact_verifier_cli_args"
 while read first_line; read second_line
 do
     export "$first_line"="$second_line"
