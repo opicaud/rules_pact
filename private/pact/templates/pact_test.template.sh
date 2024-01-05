@@ -2,11 +2,12 @@
 _healthCheck () {
     echo "starting health check of $2"
     healthy="503"
+    uri=$(cat $1)
     if [ $1 == "nop" ]; then healthy="200" && echo "health check ignored"; fi
     attempt=0
     until [ $healthy = "200" ]
     do
-     healthy=$(curl -s -o /dev/null -w "%{http_code}" $1)
+     healthy=$(curl -s -o /dev/null -w "%{http_code}" $uri)
      echo "health check of $2 not ok, will recheck in 1 sec.."
      sleep 1
     done
@@ -55,7 +56,7 @@ nohup {provider_bin} &
 echo "### Starting SideCar {side_car_bin} as State Manager ###"
 nohup {side_car_bin} &
 echo "### Health Check SideCar ###"
-#_healthCheck $(cat {health_check_side_car}) "side_car"
+_healthCheck {health_check_side_car} "side_car"
 
 echo "### Running Pact test $contract on Provider"
 ./{pact_verifier_cli} $cli_args
