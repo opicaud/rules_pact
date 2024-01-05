@@ -1,7 +1,6 @@
 load("//private:provider.bzl", "SideCarInfo", "ContractInfo")
 
 def _provider_impl(ctx):
-
     args = ctx.actions.args()
     cli_args = ctx.actions.declare_file("cli_args")
     for k, v in ctx.attr.opts.items():
@@ -11,6 +10,11 @@ def _provider_impl(ctx):
     runfiles = ctx.runfiles(files = [cli_args] +
         ctx.attr.srcs[DefaultInfo].default_runfiles.files.to_list()
     )
+
+    if ctx.attr.deps == []:
+        return [DefaultInfo(runfiles = runfiles),
+                SideCarInfo(file = "nop"),
+                ContractInfo(name = ctx.attr.name)]
 
     for dep in ctx.attr.deps:
         runfiles = runfiles.merge(dep[DefaultInfo].default_runfiles)
