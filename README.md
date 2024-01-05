@@ -7,13 +7,7 @@ Bazel rules to test services interactions with [pacts][pactsws]
 
 ## MODULE.bazel
 ```starlark
-bazel_dep(name = "rules_pact", version = "1.0.0")
-archive_override(
-    module_name = "rules_pact",
-    urls = ["https://github.com/opicaud/rules_pact/archive/refs/tags/v1.0.0.tar.gz"],
-    strip_prefix = "rules_pact-1.0.0",
-    integrity = "sha256-GqWy8GzwY7RHhmt2lVRSQ2absC3Z5rnP698foezdfY8=",
-)
+bazel_dep(name = "rules_pact", version = "1.2.0")
 ```
 
 ## Usage

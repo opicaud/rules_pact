@@ -5,7 +5,7 @@ Bazel rules to test services interactions with [pacts][pactsws]
 
 ## MODULE.bazel
 ```starlark
-bazel_dep(name = "rules_pact", version = "1.1.9")
+bazel_dep(name = "rules_pact", version = "1.2.0")
 ```
 
 ## Usage
