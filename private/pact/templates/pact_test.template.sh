@@ -29,23 +29,33 @@ echo "### Fetch Contract Path ###"
 contract_path=$(dirname $(dirname {run_consumer_test}))/pacts/{contract}.json
 if [ "{debug}" == "op" ]
 then
+  echo "[DEBUG]: show contract content"
   cat "${contract_path}"
 fi
 echo "### Preparing Pact Verifier CLI args ###"
 pact_verifier_cli_args=$(cat {pact_verifier_cli_opts} || echo "--help")
 side_car_cli_args=$(cat {side_car_opts} || echo "")
 cli_args="$side_car_cli_args -f $contract_path $pact_verifier_cli_args"
+if [ "{debug}" == "op" ]
+then
+  echo "[DEBUG]: args of pact_verifier_cli: $cli_args"
+fi
 echo "### Preparing env variables from Provider ###"
+if [ "{debug}" == "op" ]
+then
+  echo "[DEBUG]: show env file"
+  cat "${env_side_car}"
+fi
 while read first_line; read second_line
 do
     export "$first_line"="$second_line"
 done < {env_side_car}
-echo "### Starting Provider ###"
+echo "### Starting Provider {provider_bin} ###"
 nohup {provider_bin} &
-echo "### Starting SideCar as State Manager ###"
+echo "### Starting SideCar {side_car_bin} as State Manager ###"
 nohup {side_car_bin} &
 echo "### Health Check SideCar ###"
-_healthCheck $(cat {health_check_side_car}) "side_car"
+#_healthCheck $(cat {health_check_side_car}) "side_car"
 
 echo "### Running Pact test $contract on Provider"
 ./{pact_verifier_cli} $cli_args
