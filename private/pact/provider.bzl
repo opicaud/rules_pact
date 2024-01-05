@@ -1,4 +1,4 @@
-load("//private:provider.bzl", "SideCarInfo", "ContractInfo")
+load("//private:provider.bzl", "SideCarInfo", "ContractInfo", "ProviderInfo")
 
 def _provider_impl(ctx):
     args = ctx.actions.args()
@@ -11,8 +11,10 @@ def _provider_impl(ctx):
         ctx.attr.srcs[DefaultInfo].default_runfiles.files.to_list()
     )
 
+
     if ctx.attr.deps == []:
         return [DefaultInfo(runfiles = runfiles),
+                ProviderInfo(file = ctx.attr.srcs[DefaultInfo].files_to_run.executable.basename),
                 SideCarInfo(file = "nop"),
                 ContractInfo(name = ctx.attr.name)]
 
@@ -20,6 +22,7 @@ def _provider_impl(ctx):
         runfiles = runfiles.merge(dep[DefaultInfo].default_runfiles)
 
     return [DefaultInfo(runfiles = runfiles),
+            ProviderInfo(file = ctx.attr.srcs[DefaultInfo].files_to_run.executable.basename),
             SideCarInfo(file = dep[SideCarInfo].file),
             ContractInfo(name = ctx.attr.name)]
 provider = rule(
