@@ -1,7 +1,6 @@
 load("//private:provider.bzl", "SideCarInfo", "ContractInfo")
 
 def pact_test(**kwargs):
-    print(kwargs)
     _consumer = kwargs["consumer"]
     _provider = kwargs["provider"]
     _pact_test(
