@@ -11,32 +11,41 @@ _healthCheck () {
      sleep 1
     done
 }
+echo "### Copying libpact_ffi"
 cp {libpact_ffi} $(dirname $(dirname {run_consumer_test}))
 cp {libpact_ffi} .
-echo "### Running Consumers Tests ###"
+
+echo "### Copying plugin protobuf-0.3.5 ###"
 mkdir -p protobuf-0.3.5
 cp {manifest} protobuf-0.3.5
 cp {plugin} pact-protobuf-plugin
 mv pact-protobuf-plugin protobuf-0.3.5
 export PACT_PLUGIN_DIR=$(pwd)
+
+echo "### Running Consumer Tests ###"
 ./{run_consumer_test}
-echo "### Running Providers Tests On Contracts ###"
+
+echo "### Fetch Contract Path ###"
 contract_path=$(dirname $(dirname {run_consumer_test}))/pacts/{contract}.json
 if [ "{debug}" == "op" ]
 then
   cat "${contract_path}"
 fi
+echo "### Preparing Pact Verifier CLI args ###"
 pact_verifier_cli_args=$(cat {pact_verifier_cli_opts} || echo "--help")
 side_car_cli_args=$(cat {side_car_opts} || echo "")
 cli_args="$side_car_cli_args -f $contract_path $pact_verifier_cli_args"
+echo "### Preparing env variables from Provider ###"
 while read first_line; read second_line
 do
     export "$first_line"="$second_line"
 done < {env_side_car}
+echo "### Starting Provider ###"
 nohup {provider_bin} &
-echo "Provider started.."
+echo "### Starting SideCar as State Manager ###"
 nohup {side_car_bin} &
-echo "State manager started.."
+echo "### Health Check SideCar ###"
 _healthCheck $(cat {health_check_side_car}) "side_car"
-echo "Now running provider on $contract"
+
+echo "### Running Pact test $contract on Provider"
 ./{pact_verifier_cli} $cli_args
