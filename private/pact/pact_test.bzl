@@ -15,7 +15,7 @@ def _impl(ctx):
     consumer = ctx.attr.consumer[DefaultInfo].default_runfiles.files.to_list()
     provider = ctx.attr.provider[DefaultInfo].default_runfiles.files.to_list()
     debug = "op"
-    if ctx.attr.debug == False:
+    if ctx.attr.debug == True:
         debug = "nop"
     dict = {}
     script = ctx.actions.declare_file(ctx.label.name + ".sh")
@@ -55,7 +55,7 @@ _pact_test = rule(
     attrs = {
         "consumer": attr.label(),
         "provider": attr.label(),
-        "debug": attr.bool(default = True),
+        "debug": attr.bool(default = False),
         "_script" : attr.label(default = Label("//private/pact/templates:pact_test.template.sh"),  allow_single_file = True,)
     },
     toolchains = ["@rules_pact//:pact_reference_toolchain_type", "@rules_pact//:pact_protobuf_plugin_toolchain_type"],
