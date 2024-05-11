@@ -60,11 +60,14 @@ def repos(pact_verifier_cli_version = DEFAULT_PACT_VERIFIER_CLI_VERSION, pactffi
             http_file,
             name = "pact_ffi_archive_{platform}".format(platform = platform),
             sha256 ="{sha256}".format(sha256 = value.sha256),
-            urls = ["https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{version}/libpact_ffi-{os}-{cpu}.{ext}.gz".format(
+            urls = ["https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{version}/libpact_ffi-{os}-{cpu}{extra}.{ext}.gz".format(
                 os = PLATFORMS[platform].os,
                 cpu = PLATFORMS[platform].cpu,
-		ext = value.ext,
-                version = pactffi_lib_version)],
+		        ext = value.ext,
+		        extra = value.extra,
+                version = pactffi_lib_version
+                )
+            ],
         )
         if platform.startswith("darwin"):
             ext = "dylib"
