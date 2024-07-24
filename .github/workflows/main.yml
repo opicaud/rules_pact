@@ -63,7 +63,7 @@ jobs:
         if: steps.semantic.outputs.new_release_published == 'true'
         env:
           NEXT_RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
-        uses: ncipollo/release-action@v1.13.0
+        uses: ncipollo/release-action@v1.14.0
         with:
           prerelease: true
           name: ${{ env.RELEASE_NAME }}-v${{ env.NEXT_RELEASE_VERSION }}
