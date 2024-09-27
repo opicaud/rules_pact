@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   test_job:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     container:
       image: gcr.io/bazel-public/bazel:7.0.0
       volumes:
@@ -27,7 +27,7 @@ jobs:
       - name: Bazel test
         run: bazel --output_user_root=/tmp/cache test --test_output=errors //...
   release_job:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: test_job
     env:
       RELEASE_NAME: rules_pact
